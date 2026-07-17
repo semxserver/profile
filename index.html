@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEM_MAXWIN OFFICIAL LINK HUB</title>
+    <!-- Font Premium Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=500;700;800&family=Inter:wght=400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-glow: #00ffff;
+            --secondary-glow: #ff00ff;
+            --bg-dark: #090a0f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 255, 255, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 0, 255, 0.08) 0px, transparent 50%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 16px; /* Ditambah padding biar pas di-scroll gak mepet bawah */
+            overflow: hidden; /* Dikunci pas awal loading */
+            position: relative;
+        }
+
+        /* Canvas buat Efek Partikel Berkilau */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* =======================================================
+           SECURE LOADING & VERIFICATION SCREEN (ANTI-BOT GATE)
+           ======================================================= */
+        .loader-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease, visibility 0.6s;
+        }
+
+        .loader-text {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+
+        .loader-bar-container {
+            width: 260px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 25px;
+        }
+
+        .loader-bar-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
+            box-shadow: 0 0 12px var(--primary-glow);
+            border-radius: 10px;
+            animation: startLoading 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes startLoading {
+            0% { width: 0%; }
+            30% { width: 35%; }
+            60% { width: 70%; }
+            90% { width: 95%; }
+            100% { width: 100%; }
+        }
+
+        .captcha-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid var(--primary-glow);
+            color: #ffffff;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: coolFadeIn 0.5s ease forwards;
+        }
+
+        .captcha-btn:hover {
+            background: var(--primary-glow);
+            color: var(--bg-dark);
+            box-shadow: 0 0 25px var(--primary-glow);
+            transform: scale(1.05);
+        }
+
+        .loader-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* =======================================================
+           ANIMASI UTAMA TAMPILAN LINK HUB (FADE IN)
+           ======================================================= */
+        @keyframes coolFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.96) translateY(15px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 460px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            margin: auto 0; /* Biar posisi card di tengah pas layar lebar */
+        }
+
+        .container.show-content {
+            animation: coolFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .profile-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px auto;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .username {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .bio {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        .links-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 16px 18px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .link-card:hover {
+            transform: scale(1.02) translateY(-2px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary-glow);
+            box-shadow: 
+                0 12px 24px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .game-thumb {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #111;
+        }
+
+        .default-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .dots-icon {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .link-card:hover .dots-icon {
+            color: var(--primary-glow);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN LOADING & VERIFIKASI ANTI-BOT -->
+    <div class="loader-screen" id="loaderScreen">
+        <div class="loader-text" id="statusText">SYSTEM CHECKING...</div>
+        
+        <div class="loader-bar-container" id="barContainer">
+            <div class="loader-bar-progress"></div>
+        </div>
+
+        <button class="captcha-btn" id="captchaBtn" onclick="verifyUser()">Verify I am Human</button>
+    </div>
+
+    <!-- Canvas Partikel Belakang -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- CONTAINER UTAMA LINK HUB -->
+    <div class="container" id="mainContainer">
+        <div class="profile-wrapper">
+            <img class="profile-img" src="profile sem.jpg" alt="sem_maxwin">
+        </div>
+        
+        <div class="username">SEM_MAXWIN OFFICIAL LINK HUB</div>
+        <div class="bio">Tap to add my account or join private servers</div>
+
+        <div class="links-wrapper">
+            
+            <!-- 1. Add My Profile -->
+            <a href="https://www.roblox.ly/users/1909109945/profile" target="_blank" class="link-card">
+                <div class="link-content">
+                    <div class="default-icon">👤</div>
+                    <span>Add My Profile</span>
+                </div>
+                <div class="dots-icon">⋮</div>
+            </a>
+
+            <!-- 2. Add My Profile V2 -->
+            <a href="https://roblox.mq/users/1378182945/profile"_blank" class="link-card">
+                <div class="link-content">
+                    <div class="default-icon">👥</div>
+                    <span>Add My Profile V2</span>
+                </div>
+                <div class="dots-icon">⋮</div>
+            </a>
+
+            <!-- 3. Join Private Server Steal A Brainout -->
+            <a href="https://robiox.com.ve/games/109983668079237/Steal-a-Brainrot?privateServerLinkCode=59676789113402309943778906952330" target="_blank" class="link-card">
+                <div class="link-content">
+                    <img class="game-thumb" src="Sab.png" alt="Steal A Brainout">
+                    <span>Join Private Server Steal a Brainout</span>
+                </div>
+                <div class="dots-icon">⋮</div>
+            </a>
+
+            <!-- 4. Join Private Server Fis It X8 -->
+            <a href="https://robiox.com.ve/games/121864768012064/UPD-Fish-It?privateServerLinkCode=59676789113402309943778906952330"_blank" class="link-card">
+                <div class="link-content">
+                    <img class="game-thumb" src="fish it.png" alt="Fish It X8">
+                    <span>Join Private Server Fis It X8</span>
+                </div>
+                <div class="dots-icon">⋮</div>
+            </a>
+
+            <!-- 5. Join Private Server Blox Fruit V1 -->
+            <a href="https://robiox.com.ve/games/2753915549/Blox-Fruits?privateServerLinkCode=59676789113402309943778906952330"_blank" class="link-card">
+                <div class="link-content">
+                    <img class="game-thumb" src="Blox fruits.png" alt="Blox Fruit V1">
+                    <span>Join Private Server Blox Fruit V1</span>
+                </div>
+                <div class="dots-icon">⋮</div>
+            </a>
+
+            <!-- 6. Join Private Server Blox Fruits V2 -->
+            <a href="https://roblox.com.ki/games/2753915549/Blox-Fruits?privateServerLinkCode=59676789113402309943778906952330"_blank" class="link-card">
+                <div class="link-content">
+                    <img class="game-thumb" src="Blox fruits.png" alt="Blox Fruit V2">
+                    <span>Join Private Server Blox Fruits V2</span>
+                </div>
+                <div class="dots-icon">⋮</div>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        const loaderScreen = document.getElementById('loaderScreen');
+        const mainContainer = document.getElementById('mainContainer');
+        const statusText = document.getElementById('statusText');
+        const barContainer = document.getElementById('barContainer');
+        const captchaBtn = document.getElementById('captchaBtn');
+
+        // --- TIMING LOADING BAR (3 DETIK) ---
+        setTimeout(() => {
+            statusText.innerText = "SECURITY VERIFICATION";
+            statusText.style.textShadow = "0 0 15px rgba(255, 0, 255, 0.6)";
+            barContainer.style.display = "none";
+            captchaBtn.style.display = "block";
+        }, 3000);
+
+
+        // --- LOGIK KETIKA USER MENG-KLIK TOMBOL VERIFIKASI ---
+        function verifyUser() {
+            loaderScreen.classList.add('fade-out');
+            mainContainer.classList.add('show-content');
+            
+            // FIX SCROLL: Mengizinkan scrolling kembali setelah loading hilang
+            document.body.style.overflow = "auto";
+        }
+
+
+        // --- EFEK PARTIKEL BACKGROUND ---
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let particlesArray = [];
+        const numberOfParticles = 40;
+
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        setCanvasSize();
+        window.addEventListener('resize', setCanvasSize);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random();
+                this.fadeSpeed = Math.random() * 0.01 + 0.005;
+                this.direction = 1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+                this.opacity += this.fadeSpeed * this.direction;
+                if (this.opacity >= 1) { this.direction = -1; }
+                if (this.opacity <= 0.1) { this.direction = 1; }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
